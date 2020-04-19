@@ -1,3 +1,4 @@
+// 数据库连接配置
 const DB_CONN = {
   host: 'localhost',
   dialect: 'sqlite',
@@ -9,10 +10,19 @@ const DB_CONN = {
   },
   storage: 'db/news.db'
 }
-
+// 数据库表名前缀设置
 const DB_PREFIX = 'fungleo_'
 
+// app 运行设置
+const APP_HOST = {
+  host: '0.0.0.0',
+  port: 3000
+}
+// 项目接口前缀
+const API_PREFIX = '/api/v1/'
 module.exports = {
   DB_CONN,
-  DB_PREFIX
+  DB_PREFIX,
+  APP_HOST,
+  API_PREFIX
 }

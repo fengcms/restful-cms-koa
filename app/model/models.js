@@ -91,7 +91,7 @@ module.exports = {
   },
   // 文章编辑
   Editor: {
-    username: STRING,
+    account: STRING,
     password: TEXT,
     name: STRING,
     avatar: STRING,
