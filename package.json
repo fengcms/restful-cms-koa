@@ -2,10 +2,10 @@
   "name": "restful-cms-koa",
   "version": "1.0.0",
   "description": "A small restful CMS based on koa framework",
-  "main": "src/main.js",
+  "main": "app/app.js",
   "scripts": {
-    "dev": "nodemon src/main.js",
-    "start": "node src/main.js"
+    "dev": "nodemon app/app.js",
+    "start": "node app/app.js"
   },
   "keywords": [
     "restful",
@@ -15,7 +15,9 @@
   "author": "fungleo",
   "license": "MIT",
   "dependencies": {
-    "koa": "^2.11.0"
+    "koa": "^2.11.0",
+    "sequelize": "^5.21.6",
+    "sqlite3": "^4.1.1"
   },
   "devDependencies": {
     "eslint": "^6.8.0",
