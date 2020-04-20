@@ -3,9 +3,6 @@ module.exports = async (ctx, next) => {
     await next()
   } catch (err) {
     ctx.status = err.statusCode || err.status || 500
-    ctx.body = {
-      status: ctx.status,
-      msg: err.message
-    }
+    ctx.body = global.tool.fail(err.message, ctx.status)
   }
 }
