@@ -9,7 +9,8 @@ const bestRequire = require('best-require')
 bestRequire(process.cwd(), {
   '@': '~/app',
   config: ':@/config',
-  utils: ':@/utils'
+  utils: ':@/utils',
+  core: ':@/core'
 })
 // 将工具函数挂载到全局
 global.tool = require(':utils/tool')
