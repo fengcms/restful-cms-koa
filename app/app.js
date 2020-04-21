@@ -13,13 +13,14 @@ bestRequire(process.cwd(), {
 })
 // 将工具函数挂载到全局
 global.tool = require(':utils/tool')
-// 引入配置
-const { host, port } = require(':config').APP_HOST
-const configKoaBody = require(':config/config-koa-body')
 // 引入自定义中间件
 const { accessLogger, logger } = require(':@/middle/logger')
 global.tool.logger = logger // 将打日志方法挂载到全局工具
 const koaError = require(':@/middle/error')
+
+// 引入配置
+const { host, port } = require(':config').APP_HOST
+const configKoaBody = require(':config/config-koa-body')
 // 引入路由
 const router = require(':@/router')
 // 创建 APP 并注册各种中间件

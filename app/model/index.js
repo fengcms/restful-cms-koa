@@ -1,10 +1,9 @@
 const Sequelize = require('sequelize')
-const { DB_CONN, DB_PREFIX } = require('../config')
+const { DB_CONN, DB_PREFIX } = require(':config')
 const models = require('./models')
 const sequelize = new Sequelize(DB_CONN)
-const model = {}
 Object.keys(models).forEach(item => {
-  const tempModel = sequelize.define(
+  sequelize.define(
     item,
     models[item],
     {
@@ -13,9 +12,8 @@ Object.keys(models).forEach(item => {
       timestamps: false
     }
   )
-  model[item] = tempModel
 })
 sequelize.sync()
 console.log('[INFO] model init success')
 
-module.exports = model
+module.exports = sequelize
