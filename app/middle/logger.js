@@ -1,16 +1,10 @@
 const koaLog = require('koa-log4')
 const path = require('path')
-const fs = require('fs')
 
+const { makeDir } = global.tool
 const logDir = path.resolve(process.cwd(), './log')
-// 检查临时文件夹是否存在，若不存在则新建
-fs.access(logDir, err => {
-  if (err) {
-    fs.mkdir(logDir, { recursive: true }, (err) => {
-      if (err) throw err
-    })
-  }
-})
+makeDir(logDir)
+
 koaLog.configure({
   appenders: {
     access: {
@@ -34,5 +28,7 @@ koaLog.configure({
   }
 })
 
-exports.accessLogger = () => koaLog.koaLogger(koaLog.getLogger('access')) // 记录所有访问级别的日志
-exports.logger = koaLog.getLogger('application') // 记录所有应用级别的日志
+module.exports = {
+  accessLogger: () => koaLog.koaLogger(koaLog.getLogger('access')),
+  logger: koaLog.getLogger('application')
+}
