@@ -1,5 +1,6 @@
 const fs = require('fs')
 const path = require('path')
+const { logger } = require(':@/middle/logger')
 
 const getJSFile = filePath => {
   console.log(1)
@@ -29,5 +30,6 @@ const fail = (msg, status = 1) => {
 module.exports = {
   getJSFile,
   succ,
-  fail
+  fail,
+  logger
 }
