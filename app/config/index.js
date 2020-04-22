@@ -25,9 +25,14 @@ const APP_HOST = {
 }
 // 项目接口前缀
 const API_PREFIX = '/api/v1/'
+
+// 分页列表默认每页条数
+const PAGE_SIZE = 10
+
 module.exports = {
   DB_CONN,
   DB_PREFIX,
   APP_HOST,
-  API_PREFIX
+  API_PREFIX,
+  PAGE_SIZE
 }

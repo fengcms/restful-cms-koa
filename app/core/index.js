@@ -12,6 +12,7 @@ module.exports = async (ctx, model, method, name, id, next) => {
   }
   // 进入数据库查询
   let data = await query[method](ctx, model, method, params, id)
+  console.log(data)
   // 如有后处理，对查询结果进行处理
   if (afterHandle.includes(name)) {
     const handle = require(':@/api/restful/before/' + name)[method]

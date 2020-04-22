@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize')
-const { STRING, INTEGER, TEXT, DATE, NOW } = Sequelize
+const { STRING, INTEGER, TEXT } = Sequelize
 
 // 自定义私有字段类型
 const privateTypes = {
@@ -21,7 +21,10 @@ const privateTypes = {
       isEmail: true
     }
   },
-  Date: { type: DATE, defaultValue: NOW }
+  Date: {
+    type: INTEGER,
+    defaultValue: () => +new Date()
+  }
 }
 
 module.exports = {
