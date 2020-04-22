@@ -1,4 +1,5 @@
 const { logger } = global.tool
+
 // 数据库连接配置
 const DB_CONN = {
   host: 'localhost',
@@ -13,8 +14,8 @@ const DB_CONN = {
   logging: function (sql) {
     logger.info(sql)
   }
-
 }
+
 // 数据库表名前缀设置
 const DB_PREFIX = 'fungleo_'
 

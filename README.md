@@ -13,4 +13,6 @@ curl http://0.0.0.0:3000/api/v1/Author/batch -X PUT -H "Content-Type:application
 curl http://0.0.0.0:3000/api/v1/Author -X POST -H "Content-Type:application/json" -d '[{"name":"fungleo","mark":"articleContent","mobile": "13311122233"},{"name":"fungleo","mark":"articleContent","mobile": "13311122233"},{"id": 1, "name":"fungleo","mark":"articleContent","mobile": "13311122233"}]'
 
 curl http://0.0.0.0:3000/api/v1/Author/1,2,3,4,5 -X DELETE
+
+curl http://0.0.0.0:3000/api/v1/Author\?pageSize\=3\&page\=1\&mobile\=13311122233
 ```
