@@ -1,13 +1,11 @@
 const query = require('./query')
-const { succ, getJSFile, objKeyLower } = global.tool
+const { succ, getJSFile } = global.tool
 const beforeHandle = getJSFile('../api/restful/before')
 const afterHandle = getJSFile('../api/restful/after')
 /*
   RESTFul 核心处理方法，在此加载前处理、后处理，并查询数据
 */
-module.exports = async (ctx, model, method, name, id, next) => {
-  // 根据请求方法整理参数
-  let params = method === 'ls' ? objKeyLower(ctx.request.query) : ctx.request.body
+module.exports = async (ctx, params, model, method, name, id, next) => {
   // 如有前处理，加载前处理
   if (beforeHandle.includes(name)) {
     const handle = require(':@/api/restful/before/' + name)[method]

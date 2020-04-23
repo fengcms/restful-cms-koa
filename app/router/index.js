@@ -2,9 +2,9 @@ const Router = require('koa-router')
 
 const Core = require(':core')
 const Authentication = require(':core/authentication')
-const { API_PREFIX, PERMISSION } = require(':config')
+const { API_PREFIX } = require(':config')
 const { models } = require(':@/model')
-const { getJSFile } = global.tool
+const { getJSFile, objKeyLower } = global.tool
 const extraAPI = getJSFile('../api/extra')
 
 /*
@@ -60,15 +60,17 @@ router.all(API_PREFIX + '*', async (ctx, next) => {
   const reqMethod = calcMethodAndCheckUrl(reqApiName, reqId, ctx)
   // 请求鉴权，并返回角色名称
   const roleName = Authentication(ctx, reqApiName, reqMethod)
+
   console.log(roleName)
-  //
+  // 根据请求方法整理参数
+  const reqParams = reqMethod === 'ls' ? objKeyLower(ctx.request.query) : ctx.request.body
   if (extraAPI.includes(reqApiName)) {
     // 扩展接口直接调用扩展文件并执行
-    await require(':@/api/extra/' + reqApiName)(ctx, next)
+    await require(':@/api/extra/' + reqApiName)(ctx, reqParams, next)
   } else if (Object.keys(RESTFulModel).includes(reqApiName)) {
     // 标准 RESTFul 查询
     const reqModelName = RESTFulModel[reqApiName]
-    await Core(ctx, reqModelName, reqMethod, reqApiName, reqId, next)
+    await Core(ctx, reqParams, reqModelName, reqMethod, reqApiName, reqId, next)
   } else {
     ctx.throw(404)
   }

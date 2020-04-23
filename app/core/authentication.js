@@ -13,6 +13,8 @@ module.exports = (ctx, apiName, method) => {
         ctx.throw(403, '您没有权限操作')
       }
     }
+    // 校验 token 是否过期
+    console.log(token)
   } else {
     /*
       如权限配置内未配置的接口名称，当前放走，交由路由层面处理
