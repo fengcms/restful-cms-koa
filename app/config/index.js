@@ -19,6 +19,12 @@ const KEY = {
   RSA_PUBLIC_KEY_PATH: path.resolve(__dirname, './key/rsa_public_key.pem')
 }
 
+// 系统目录设置
+const APP_DIR = {
+  TMP_DIR: path.resolve(process.cwd(), './tmp'),
+  LOG_DIR: path.resolve(process.cwd(), './log')
+}
+
 module.exports = {
   DB_CONN,
   DB_PREFIX,
@@ -26,5 +32,6 @@ module.exports = {
   API_PREFIX,
   PAGE_SIZE,
   PERMISSION,
-  KEY
+  KEY,
+  APP_DIR
 }

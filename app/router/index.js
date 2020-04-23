@@ -59,7 +59,7 @@ router.all(API_PREFIX + '*', async (ctx, next) => {
   // 根据请求计算内置请求方法
   const reqMethod = calcMethodAndCheckUrl(reqApiName, reqId, ctx)
   // 请求鉴权，并返回角色名称
-  const roleName = Authentication(ctx, reqApiName, reqMethod)
+  const roleName = await Authentication(ctx, reqApiName, reqMethod)
 
   console.log(roleName)
   // 根据请求方法整理参数

@@ -41,6 +41,29 @@ const isInRootPath = path => {
   const pathPre = path.substring(0, rootPath.length)
   return rootPath === pathPre
 }
+// 读取文本文件
+const readTextFile = path => {
+  return new Promise((resolve, reject) => {
+    fs.readFile(path, 'utf8', (err, data) => {
+      if (err) reject(err)
+      resolve(data)
+    })
+  })
+}
+
+// 删除文件
+const deleteFile = path => {
+  return new Promise((resolve, reject) => {
+    if (!isInRootPath(path)) {
+      reject(new Error('不支持在项目根目录以外删除文件或文件夹！'))
+    }
+    fs.unlink(path, (err, data) => {
+      if (err) reject(err)
+      resolve('succ')
+    })
+  })
+}
+
 // 检查文件夹是否存在，若不存在则创建
 const makeDir = dirPath => {
   // const dirPathPre = dirPath.substring(0, rootPath.length)
@@ -98,6 +121,8 @@ module.exports = {
   getJSFile,
   succ,
   fail,
+  readTextFile,
+  deleteFile,
   makeDir,
   moveFile,
   objKeyLower,

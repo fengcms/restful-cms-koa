@@ -1,5 +1,6 @@
 const { succ, rsa } = global.tool
 const { getItem } = require(':query')
+const { makeToken, getToken, removeToken } = require(':core/session')
 module.exports = async (ctx, params, next) => {
   const { account, password, role } = params
   // 校验传参是否为空
@@ -17,9 +18,16 @@ module.exports = async (ctx, params, next) => {
   if (dbPw !== reqPw) ctx.throw(400, '用户名密码错误')
 
   // 用户通过校验，此处需要增加一个用户 session 管理机制
+  const token = await makeToken(role, account)
 
-  ctx.cookies.set('token', 'admin||xxxxxx', {
+  // setTimeout(async () => {
+  //   console.log('222', token, await getToken(token))
+  // }, 500)
+  // setTimeout(async () => {
+  //   console.log('222', token, await removeToken(token))
+  // }, 2000)
+  ctx.cookies.set('token', token, {
     httpOnly: true
   })
-  ctx.body = succ({ token: 'admin||xxxxxx' })
+  ctx.body = succ({ token })
 }

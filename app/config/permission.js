@@ -19,7 +19,7 @@ module.exports = {
   site: {
     anyone: [ls], editor: [ls], admin
   },
-  author: { anyone, editor, admin },
+  author: { anyone, editor, admin: [] },
   origin: { anyone, editor, admin },
   editor: { anyone, editor, admin },
   tags: { anyone, editor, admin },
