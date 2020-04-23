@@ -10,7 +10,8 @@ bestRequire(process.cwd(), {
   '@': '~/app',
   config: ':@/config',
   utils: ':@/utils',
-  core: ':@/core'
+  core: ':@/core',
+  query: ':core/query'
 })
 // 将工具函数挂载到全局
 global.tool = require(':utils/tool')
