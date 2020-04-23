@@ -2,8 +2,7 @@
   分页数据查询方法 支持各种复杂查询条件，详情见文档
 */
 const { Op } = require('Sequelize')
-const sequelize = require(':@/model')
-const { models } = sequelize
+const { models } = require(':@/model')
 const { PAGE_SIZE } = require(':config')
 const { isNumer } = global.tool.verify
 // 从请求参数中找出非标准参数并输出为对象

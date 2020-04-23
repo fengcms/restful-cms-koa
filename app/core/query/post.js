@@ -14,9 +14,12 @@ const { toType } = global.tool
 module.exports = async (ctx, model, method, params) => {
   // 如果是单条数据，则转化为多条数据，共用后续处理
   if (toType(params) === 'object') params = [params]
-  if (params.filter(r => r.id).length) {
-    ctx.throw(412, '添加新数据，数据不得包含ID字段')
-  }
+  // 数据基本格式校验
+  params.forEach(r => {
+    if (r.id) ctx.throw(412, '添加新数据，数据不得包含ID字段')
+    if (Object.keys(r).length === 0) ctx.throw(412, '添加新数据，数据不得为空')
+  })
+
   const res = { ids: [] }
   await Promise.all(params.map(async item => {
     const id = await models[model]

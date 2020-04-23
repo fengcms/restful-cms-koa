@@ -38,28 +38,29 @@ module.exports = async (ctx, model, method, params, id) => {
       res.fail.push(id)
     }
   }
-  if (id === 'first') {
-    // 未知ID单条数据修改
-    delete params.id
-    await putItemFunc(id, params)
-  } else if (id === 'batch') {
+  if (id === 'batch') {
     // 多ID多数据修改
-    if (toType(params) !== 'array') {
-      ctx.throw(412, '批量更新数据，数据参数必须为数组对象')
-    } else if (params.filter(r => !r.id).length) {
-      ctx.throw(412, '批量更新数据，每条数据必须包含ID字段')
+    if (toType(params) !== 'array') ctx.throw(412, '批量更新数据，数据参数必须为数组对象')
+    if (params.filter(r => !r.id).length) ctx.throw(412, '批量更新数据，每条数据必须包含ID字段')
+    await Promise.all(params.map(async item => {
+      await putItemFunc(item.id, item)
+    }))
+  } else {
+    // 数据校验
+    if (toType(params) !== 'object') ctx.throw(412, '更新数据，数据参数必须为对象')
+    delete params.id
+    if (!Object.keys(params).length) ctx.throw(412, '更新数据，数据对象不能为空')
+
+    if (id === 'first') {
+      // 未知ID单条数据修改
+      await putItemFunc(id, params)
     } else {
-      await Promise.all(params.map(async item => {
-        await putItemFunc(item.id, item)
+      // 多ID单数据修改 以及 单ID数据修改
+      const ids = id.split(',')
+      await Promise.all(ids.map(async itemId => {
+        await putItemFunc(itemId, params)
       }))
     }
-  } else {
-    // 多ID单数据修改 以及 单ID数据修改
-    delete params.id
-    const ids = id.split(',')
-    await Promise.all(ids.map(async itemId => {
-      await putItemFunc(itemId, params)
-    }))
   }
   return res
 }

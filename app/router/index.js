@@ -1,7 +1,8 @@
 const Router = require('koa-router')
 
-const core = require(':core')
-const { API_PREFIX } = require(':config')
+const Core = require(':core')
+const Authentication = require(':core/authentication')
+const { API_PREFIX, PERMISSION } = require(':config')
 const { models } = require(':@/model')
 const { getJSFile } = global.tool
 const extraAPI = getJSFile('../api/extra')
@@ -57,13 +58,17 @@ router.all(API_PREFIX + '*', async (ctx, next) => {
   if (errPath) ctx.throw(400, '请求路径不支持')
   // 根据请求计算内置请求方法
   const reqMethod = calcMethodAndCheckUrl(reqApiName, reqId, ctx)
+  // 请求鉴权，并返回角色名称
+  const roleName = Authentication(ctx, reqApiName, reqMethod)
+  console.log(roleName)
+  //
   if (extraAPI.includes(reqApiName)) {
     // 扩展接口直接调用扩展文件并执行
     await require(':@/api/extra/' + reqApiName)(ctx, next)
   } else if (Object.keys(RESTFulModel).includes(reqApiName)) {
     // 标准 RESTFul 查询
     const reqModelName = RESTFulModel[reqApiName]
-    await core(ctx, reqModelName, reqMethod, reqApiName, reqId, next)
+    await Core(ctx, reqModelName, reqMethod, reqApiName, reqId, next)
   } else {
     ctx.throw(404)
   }
