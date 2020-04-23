@@ -1,5 +1,3 @@
-const { logger } = global.tool
-
 // 数据库连接配置
 const DB_CONN = {
   host: 'localhost',
@@ -12,7 +10,7 @@ const DB_CONN = {
   },
   storage: 'db/news.db',
   logging: function (sql) {
-    logger.info(sql)
+    // console.log(sql)
   }
 }
 
