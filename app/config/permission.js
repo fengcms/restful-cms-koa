@@ -29,5 +29,6 @@ module.exports = {
   login: onlyPost,
   logout: onlyRead,
   tree_channel: onlyRead,
-  rsa_public_key: onlyRead
+  rsa_public_key: onlyRead,
+  profile: onlyRead
 }

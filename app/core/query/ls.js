@@ -109,7 +109,7 @@ module.exports = async (ctx, model, method, params) => {
         支持 a=1,2,3,4,5 多个相等条件查询
           会被解析为 in 查询
       */
-      const argArr = args[i].split(',')
+      const argArr = (args[i] || '').split(',')
       condition.where[fieldName] = argArr.length === 1 ? args[i] : { [Op.in]: argArr }
     } else {
       // 处理配置查询参数
