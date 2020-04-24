@@ -5,12 +5,12 @@ const { readTextFile, deleteFile } = global.tool
 const { TMP_DIR } = require(':config').APP_DIR
 
 /*
-  session type 支持 momory 内存存储 和 file 文件存储
-  除非是在开发阶段 否则推荐 momory 存储
+  session type 支持 memory 内存存储 和 file 文件存储
+  除非是在开发阶段 否则推荐 memory 存储
   因为 file 存储的 session 文件不会自动删除，会越来越多
-  有更高要求，可参考 momory 写法，增加 redis 数据库
+  有更高要求，可参考 memory 写法，增加 redis 数据库
 */
-const SESSION_TYPE = 'file'
+const SESSION_TYPE = 'memory'
 
 // 存储 token
 const setToken = async (role, account, token, time) => {
