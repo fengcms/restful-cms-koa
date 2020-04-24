@@ -25,6 +25,9 @@ const APP_DIR = {
   LOG_DIR: path.resolve(process.cwd(), './log')
 }
 
+// 初始化数据库时是否添加测试数据
+const IS_POST_TEST_DB = true
+
 module.exports = {
   DB_CONN,
   DB_PREFIX,
@@ -33,5 +36,6 @@ module.exports = {
   PAGE_SIZE,
   PERMISSION,
   KEY,
-  APP_DIR
+  APP_DIR,
+  IS_POST_TEST_DB
 }

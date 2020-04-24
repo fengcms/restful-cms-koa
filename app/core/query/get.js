@@ -4,7 +4,7 @@ module.exports = async (ctx, model, method, params, id) => {
   const condition = id === 'first' ? {} : { where: { id } }
   const res = await models[model]
     .findOne(condition)
-    .then(r => r.dataValues)
+    .then(r => r)
     .catch(() => null)
   return res
 }

@@ -2,7 +2,7 @@
   注册不同的方法对应的查询
 */
 const { toType } = global.tool
-
+const { IS_POST_TEST_DB } = require(':config')
 const ls = require('./ls')
 const post = require('./post')
 const get = require('./get')
@@ -54,12 +54,28 @@ const initDb = async () => {
       keywords: 'RESTFul,CMS,koa',
       copyright: 'By FungLeo'
     }).then(() => {
-      console.log('初始系统信息完成')
+      console.log('初始系统信息数据完成')
+    })
+  }
+  const hasChan = await getItem('Channel', 'first')
+  if (!hasChan) {
+    const calcchannelMockDat = (pid, pre = '顶级') => {
+      return 'leo'.split('').map((i, index) => {
+        return { pid, name: `${pre}栏目${pid}${index}` }
+      })
+    }
+    const { ids } = await postItem('Channel', calcchannelMockDat(0))
+    ids.forEach(async i => {
+      const { ids } = await postItem('Channel', calcchannelMockDat(i, '二级'))
+      ids.forEach(async i => {
+        await postItem('Channel', calcchannelMockDat(i, '三级'))
+        console.log('初始测试栏目数据完成')
+      })
     })
   }
 }
 // 初始化空数据时添加默认数据
-initDb()
+IS_POST_TEST_DB && initDb()
 
 module.exports = {
   getList,

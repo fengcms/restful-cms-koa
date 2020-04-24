@@ -8,6 +8,7 @@ const DB_CONN = {
     acquire: 30000,
     idle: 10000
   },
+  query: { raw: true },
   storage: 'db/news.db',
   logging: function (sql) {
     // console.log(sql)
