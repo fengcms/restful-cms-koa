@@ -25,6 +25,15 @@ const APP_DIR = {
   LOG_DIR: path.resolve(process.cwd(), './log')
 }
 
+/*
+  session type 支持 memory 内存存储 和 file 文件存储
+  除非是在开发阶段 否则推荐 memory 存储
+  因为 file 存储的 session 文件不会自动删除，会越来越多
+  有更高要求，可参考 memory 写法，增加 redis 数据库
+    代码在 /app/core/session.js
+*/
+const SESSION_TYPE = 'memory'
+
 // 初始化数据库时是否添加测试数据
 const IS_POST_TEST_DB = true
 
@@ -37,5 +46,6 @@ module.exports = {
   PERMISSION,
   KEY,
   APP_DIR,
+  SESSION_TYPE,
   IS_POST_TEST_DB
 }
