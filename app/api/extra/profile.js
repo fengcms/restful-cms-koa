@@ -5,7 +5,7 @@
 const { getToken } = require(':core/session')
 const { getItem } = require(':query')
 const { succ } = global.tool
-module.exports = async (ctx, params, next) => {
+module.exports = async (ctx, params, roleName, next) => {
   // 校验token是否存在
   const token = ctx.header.token || ctx.cookies.get('token') || ''
   if (!token) ctx.throw(401, '请重新登录')
@@ -17,5 +17,6 @@ module.exports = async (ctx, params, next) => {
   if (!userInfo) ctx.throw(400)
   // 删除密码信息并返回其他信息
   delete userInfo.password
+  userInfo.role = role
   ctx.body = succ(userInfo)
 }

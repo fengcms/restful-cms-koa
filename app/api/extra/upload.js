@@ -57,7 +57,7 @@ const saveFile = (ctx, file) => {
   })
 }
 
-module.exports = async (ctx, params, next) => {
+module.exports = async (ctx, params, roleName, next) => {
   const { files, type } = ctx.request
   if (type !== 'multipart/form-data' || !files) {
     ctx.throw(400, '请求类型错误，上传文件接口仅支持 multipart/form-data')
