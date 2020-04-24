@@ -19,7 +19,7 @@ const getItem = async (model, params) => {
   if (toType(params) === 'object') {
     const res = await getList(model, params)
     if (res.list.length) {
-      return res.list[0].dataValues
+      return res.list[0]
     } else {
       return null
     }
@@ -41,7 +41,7 @@ const initDb = async () => {
   if (!hasManage) {
     postItem('Manages', {
       account: 'admin',
-      password: 'QoXr/TKaWtreOTUp7+hUIafOmRYXge7usf8RCvvE745OeaAjVg50Dgg3k+i1xFfvIPcFY4Boifzd7TKcPjzzhw=='
+      password: 'DQnIHd5oupt/oZvkBQ/qvgl1gXTK3NwDJVYjxnyG2zXSa3debJ5yIX/jDzSc3SGK+adHUOxWllQa8leLcCCbOhdB89YbGicESufr086xWaWDx0fPsELTRUTT0yWQLUJDVT1WrnHQqAMsI+KgM/28zULWgkrqj190O4oBBgwwGLc='
     }).then(() => {
       console.log('初始管理员账号添加完成 admin:123456')
     })

@@ -9,6 +9,7 @@ const encrypt = (str) => {
       if (err) reject(new Error(err))
 
       const Rsa = new NodeRSA(data)
+      Rsa.setOptions({ encryptionScheme: 'pkcs1' })
       resolve(Rsa.encrypt(str, 'base64'))
     })
   })
@@ -20,6 +21,7 @@ const decrypt = (str) => {
       if (err) reject(new Error(err))
 
       const Rsa = new NodeRSA(data)
+      Rsa.setOptions({ encryptionScheme: 'pkcs1' })
       try {
         const res = Rsa.decrypt(str, 'utf-8')
         resolve(res)
