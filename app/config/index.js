@@ -32,7 +32,7 @@ const APP_DIR = {
   有更高要求，可参考 memory 写法，增加 redis 数据库
     代码在 /app/core/session.js
 */
-const SESSION_TYPE = 'memory'
+const SESSION_TYPE = 'file'
 
 // 初始化数据库时是否添加测试数据
 const IS_POST_TEST_DB = true
