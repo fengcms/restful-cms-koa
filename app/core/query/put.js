@@ -27,6 +27,7 @@ module.exports = async (ctx, model, method, params, id) => {
   // 构建添加数据方法，因 update 方法不会返回数据，故而使用 findOne方法先查询，再 save 的做法
   const putItemFunc = async (id, item) => {
     const where = id === 'first' ? {} : { where: { id } }
+    where.raw = false
     const dat = await models[model]
       .findOne(where)
       .catch(e => logger.error(e.message))
