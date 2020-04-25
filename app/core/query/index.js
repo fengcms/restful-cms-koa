@@ -69,13 +69,13 @@ const initDb = async () => {
       const { ids } = await postItem('Channel', calcchannelMockDat(i, '二级'))
       ids.forEach(async i => {
         await postItem('Channel', calcchannelMockDat(i, '三级'))
-        console.log('初始测试栏目数据完成')
       })
     })
+    console.log('初始测试栏目数据完成')
   }
 }
 // 初始化空数据时添加默认数据
-IS_POST_TEST_DB && initDb()
+IS_POST_TEST_DB && setTimeout(() => initDb(), 2000)
 
 module.exports = {
   getList,
