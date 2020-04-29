@@ -2,10 +2,10 @@
   "name": "restful-cms-koa",
   "version": "1.0.0",
   "description": "A small restful CMS based on koa framework",
-  "main": "app/app.js",
+  "main": "app.js",
   "scripts": {
-    "dev": "nodemon app/app.js",
-    "start": "node app/app.js"
+    "dev": "nodemon app.js",
+    "start": "node app.js"
   },
   "keywords": [
     "restful",
@@ -30,5 +30,12 @@
     "eslint": "^6.8.0",
     "nodemon": "^2.0.3",
     "standard": "^14.3.3"
-  }
+  },
+  "pkg": {
+    "output": "restful-cms-koa",
+    "targets": [
+      "node10-macos-x64"
+    ]
+  },
+  "bin": "app.js"
 }
