@@ -25,7 +25,11 @@ const privateTypes = {
     type: INTEGER,
     defaultValue: () => +new Date()
   },
-  Zero: {
+  hits: {
+    type: INTEGER,
+    defaultValue: 0
+  },
+  Sort: {
     type: INTEGER,
     defaultValue: 0
   },
@@ -53,7 +57,7 @@ module.exports = {
     author: STRING, // 文章作者
     origin: STRING, // 文章来源
     editor: STRING, // 文章编辑
-    hits: privateTypes.Zero, // 文章点击热度
+    hits: privateTypes.hits, // 文章点击热度
     status: privateTypes.Status, // 文章状态
     time: privateTypes.Date
   },
@@ -61,7 +65,7 @@ module.exports = {
   Channel: {
     pid: INTEGER, // 归属父ID
     name: STRING, // 栏目名称
-    sort: privateTypes.Zero, // 栏目排序
+    sort: privateTypes.Sort, // 栏目排序
     keywords: STRING, // 栏目关键词
     description: TEXT, // 栏目描述
     time: privateTypes.Date
@@ -121,7 +125,7 @@ module.exports = {
   Tags: {
     tag: STRING,
     channel_id: INTEGER,
-    hits: privateTypes.Zero,
+    hits: privateTypes.hits,
     time: privateTypes.Date
   }
 }
