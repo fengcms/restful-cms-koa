@@ -103,6 +103,7 @@ module.exports = {
   // 来源
   Origin: {
     name: STRING,
+    contact: STRING,
     avatar: STRING,
     mark: TEXT,
     mobile: privateTypes.Mobile,
