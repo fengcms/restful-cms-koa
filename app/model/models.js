@@ -104,7 +104,7 @@ module.exports = {
   Origin: {
     name: STRING,
     contact: STRING,
-    avatar: STRING,
+    logo: STRING,
     mark: TEXT,
     mobile: privateTypes.Mobile,
     email: privateTypes.Email,

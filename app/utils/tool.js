@@ -116,6 +116,14 @@ const objKeyLower = (o) => {
   return res
 }
 
+const sleep = async time => {
+  return new Promise(function (resolve, reject) {
+    setTimeout(function () {
+      resolve()
+    }, time)
+  })
+}
+
 module.exports = {
   toType,
   getJSFile,
@@ -126,6 +134,7 @@ module.exports = {
   makeDir,
   moveFile,
   objKeyLower,
+  sleep,
   // 加载自定义校验
   verify: require('./verify'),
   rsa: require('./rsa')
