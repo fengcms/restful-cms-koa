@@ -35,6 +35,12 @@ const postItem = async (model, params) => {
   return res
 }
 
+// 系统内部修改数据方法
+const putItem = async (model, id, params) => {
+  const res = await put({}, model, '', params, id)
+  return res
+}
+
 // 初始化空数据时添加默认数据方法
 const initDb = async () => {
   const hasManage = await getItem('Manages', 'first')
@@ -85,6 +91,7 @@ module.exports = {
   getList,
   getItem,
   postItem,
+  putItem,
   ls,
   post,
   get,

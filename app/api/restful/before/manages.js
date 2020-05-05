@@ -35,10 +35,10 @@ module.exports = {
     if (managesList.count <= 1) ctx.throw(410, '系统至少需要一个超级管理员账号')
     // 校验token是否存在
     const token = ctx.header.token || ctx.cookies.get('token') || ''
-    if (!token) ctx.throw(410, '请重新登录')
+    if (!token) ctx.throw(401, '请重新登录')
     // 校验 token 信息
     const { account } = await getToken(token)
-    if (!account) ctx.throw(410, '请重新登录')
+    if (!account) ctx.throw(401, '请重新登录')
     // 校验是否是删除自己
     const userInfo = await getItem('Manages', id)
     if (userInfo.account === account) ctx.throw(410, '不能删除自己哦！')
