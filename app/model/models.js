@@ -76,6 +76,7 @@ module.exports = {
     password: TEXT, // 超级管理员密码
     name: STRING, // 姓名
     avatar: STRING, // 头像
+    mark: TEXT,
     mobile: privateTypes.Mobile,
     email: privateTypes.Email,
     time: privateTypes.Date
