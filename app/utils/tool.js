@@ -116,12 +116,18 @@ const objKeyLower = (o) => {
   return res
 }
 
+// 睡眠函数
 const sleep = async time => {
   return new Promise(function (resolve, reject) {
     setTimeout(function () {
       resolve()
     }, time)
   })
+}
+
+// 过滤 html 标签
+const filterStrHtml = htmlStr => {
+  return htmlStr.replace(/<.*?>/g, '').replace(/[\r\n]/g, ' ').trim()
 }
 
 module.exports = {
@@ -135,6 +141,7 @@ module.exports = {
   moveFile,
   objKeyLower,
   sleep,
+  filterStrHtml,
   // 加载自定义校验
   verify: require('./verify'),
   rsa: require('./rsa')

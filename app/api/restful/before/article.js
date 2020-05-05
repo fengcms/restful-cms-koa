@@ -1,20 +1,31 @@
+const { filterStrHtml } = global.tool
+const marked = require('marked')
+
+const articleHandle = (params, role, ctx) => {
+  const { title, channel_id: channelId, content, markdown, description } = params
+  if (!title) ctx.throw(410, '文章标题不能为空')
+  if (!channelId) ctx.throw(410, '文章归属栏目不能为空')
+  if (!content && !markdown) ctx.throw(410, '文章正文不能为空')
+  // 如果正文为空而有 markdown 则将 markdown 转成 html 并存放到 content
+  if (!content) {
+    params.content = marked(markdown)
+  }
+  // 如果没有简介，则从正文中提取前200个字符作为简介
+  if (!description) {
+    params.description = filterStrHtml(params.content).substring(0, 200)
+  }
+  return params
+}
+
 module.exports = {
-  ls (params, role, ctx) {
-    console.log(role)
-    return params
-  },
   post (params, role, ctx) {
-    // if (!Object.keys(params).includes('channel_id')) {
-    //   ctx.throw(410, '栏目ID不能为空')
-    // }
-    // console.log(params)
-    return params
+    return articleHandle(params, role, ctx)
   },
   get (params, role, ctx, id) {
     return params
   },
   put (params, role, ctx, id) {
-    return params
+    return articleHandle(params, role, ctx)
   },
   del (params, role, ctx, id) {
     return params
