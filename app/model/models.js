@@ -117,6 +117,7 @@ module.exports = {
     password: TEXT,
     name: STRING,
     avatar: STRING,
+    mark: TEXT,
     mobile: privateTypes.Mobile,
     email: privateTypes.Email,
     website: privateTypes.Url,
