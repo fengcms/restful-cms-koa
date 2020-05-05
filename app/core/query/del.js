@@ -7,7 +7,7 @@ module.exports = async (ctx, model, method, params, id) => {
   const ids = id.split(',')
   await Promise.all(ids.map(async id => {
     const dat = await models[model]
-      .findOne({ where: { id } })
+      .findOne({ where: { id }, raw: false })
       .catch(e => logger.error(e.message))
     if (dat) {
       await dat.destroy()
