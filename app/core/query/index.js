@@ -10,7 +10,7 @@ const put = require('./put')
 const del = require('./del')
 
 // 系统内部查询数据列表方法
-const getList = async (model, params) => {
+const getList = async (model, params = {}) => {
   const res = await ls({}, model, '', params)
   return res
 }
