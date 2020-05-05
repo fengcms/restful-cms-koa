@@ -6,8 +6,8 @@ const articleHandle = (params, role, ctx) => {
   if (!title) ctx.throw(410, '文章标题不能为空')
   if (!channelId) ctx.throw(410, '文章归属栏目不能为空')
   if (!content && !markdown) ctx.throw(410, '文章正文不能为空')
-  // 如果正文为空而有 markdown 则将 markdown 转成 html 并存放到 content
-  if (!content) {
+  // 如果有 markdown 则将 markdown 转成 html 并存放到 content
+  if (markdown) {
     params.content = marked(markdown)
   }
   // 如果没有简介，则从正文中提取前200个字符作为简介
