@@ -25,7 +25,7 @@ const privateTypes = {
     type: INTEGER,
     defaultValue: () => +new Date()
   },
-  hits: {
+  Hits: {
     type: INTEGER,
     defaultValue: 0
   },
@@ -57,7 +57,7 @@ module.exports = {
     author: STRING, // 文章作者
     origin: STRING, // 文章来源
     editor: STRING, // 文章编辑
-    hits: privateTypes.hits, // 文章点击热度
+    hits: privateTypes.Hits, // 文章点击热度
     status: privateTypes.Status, // 文章状态
     time: privateTypes.Date
   },
@@ -126,7 +126,7 @@ module.exports = {
   Tags: {
     tag: STRING,
     channel_id: INTEGER,
-    hits: privateTypes.hits,
+    hits: privateTypes.Hits,
     time: privateTypes.Date
   }
 }
