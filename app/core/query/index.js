@@ -1,7 +1,7 @@
 /*
   注册不同的方法对应的查询
 */
-const { toType } = global.tool
+const { toType, rsa } = global.tool
 const { IS_POST_TEST_DB } = require(':config')
 const ls = require('./ls')
 const post = require('./post')
@@ -38,10 +38,14 @@ const postItem = async (model, params) => {
 // 初始化空数据时添加默认数据方法
 const initDb = async () => {
   const hasManage = await getItem('Manages', 'first')
+  const password = await rsa.encrypt('123456')
   if (!hasManage) {
     postItem('Manages', {
       account: 'admin',
-      password: 'DQnIHd5oupt/oZvkBQ/qvgl1gXTK3NwDJVYjxnyG2zXSa3debJ5yIX/jDzSc3SGK+adHUOxWllQa8leLcCCbOhdB89YbGicESufr086xWaWDx0fPsELTRUTT0yWQLUJDVT1WrnHQqAMsI+KgM/28zULWgkrqj190O4oBBgwwGLc='
+      name: 'admin',
+      password,
+      email: 'web@web.com',
+      mark: '系统初始管理员账号'
     }).then(() => {
       console.log('初始管理员账号添加完成 admin:123456')
     })
