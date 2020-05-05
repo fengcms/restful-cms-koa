@@ -19,7 +19,7 @@ module.exports = {
   channel: normal,
   manages: { anyone: nil, editor: nil, admin },
   site: {
-    anyone: [ls], editor: [ls], admin
+    anyone: [ls], editor: [ls], admin: [ls, get, put]
   },
   author: normal,
   origin: normal,

@@ -10,6 +10,8 @@ module.exports = async (ctx, params, model, method, name, roleName, id, next) =>
   if (beforeHandle.includes(name)) {
     const handle = require(':@/api/restful/before/' + name)[method]
     if (handle) params = await handle(params, roleName, ctx, id)
+    // 在前处理中如果没有返回任何值，则终止后续操作
+    if (!params) return
   }
   // 进入数据库查询
   let data = await query[method](ctx, model, method, params, id)
