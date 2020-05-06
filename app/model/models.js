@@ -36,6 +36,10 @@ const privateTypes = {
   Status: {
     type: STRING,
     defaultValue: 'NORMAL'
+  },
+  Editor: {
+    type: STRING,
+    defaultValue: 'MARKDOWN'
   }
 }
 
@@ -77,6 +81,7 @@ module.exports = {
     name: STRING, // 姓名
     avatar: STRING, // 头像
     mark: TEXT,
+    editor: privateTypes.Editor,
     mobile: privateTypes.Mobile,
     email: privateTypes.Email,
     time: privateTypes.Date
@@ -119,6 +124,7 @@ module.exports = {
     name: STRING,
     avatar: STRING,
     mark: TEXT,
+    editor: privateTypes.Editor,
     mobile: privateTypes.Mobile,
     email: privateTypes.Email,
     website: privateTypes.Url,
