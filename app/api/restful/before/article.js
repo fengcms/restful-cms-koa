@@ -21,13 +21,7 @@ module.exports = {
   post (params, role, ctx) {
     return articleHandle(params, role, ctx)
   },
-  get (params, role, ctx, id) {
-    return params
-  },
   put (params, role, ctx, id) {
     return articleHandle(params, role, ctx)
-  },
-  del (params, role, ctx, id) {
-    return params
   }
 }

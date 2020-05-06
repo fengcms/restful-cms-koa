@@ -34,9 +34,7 @@
   },
   "pkg": {
     "output": "restful-cms-koa",
-    "targets": [
-      "node10-macos-x64"
-    ]
+    "scripts": "app/**/*.js"
   },
   "bin": "app.js"
 }
