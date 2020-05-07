@@ -134,9 +134,10 @@ module.exports = async (ctx, model, method, params) => {
   // 查询从数据库查询数据
   const res = await model.findAndCountAll(condition).then(r => {
     return {
-      page,
+      page: Number(page),
       list: r.rows,
-      count: r.count
+      count: r.count,
+      pageSize: Number(pagesize)
     }
   })
   return res
