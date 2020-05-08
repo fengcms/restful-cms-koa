@@ -22,8 +22,8 @@ module.exports = {
     await checkParams(params, role, ctx)
 
     // 校验账号是否唯一
-    const hasAccount = await getItem('Editor', { account })
-    if (hasAccount) ctx.throw(400, '小编账号已经存在')
+    const editInfo = await getItem('Editor', { account })
+    if (editInfo) ctx.throw(400, '小编账号已经存在')
 
     return params
   },
@@ -33,9 +33,9 @@ module.exports = {
     await checkParams(params, role, ctx)
 
     // 校验账号是否唯一
-    const hasAccount = await getItem('Editor', id)
-    if (!hasAccount) ctx.throw(404, '您要更新信息的小编账号不存在')
-    if (hasAccount.account !== account) ctx.throw(400, '小编账号不允许修改')
+    const editInfo = await getItem('Editor', id)
+    if (!editInfo) ctx.throw(404, '您要更新信息的小编账号不存在')
+    if (editInfo.account !== account) ctx.throw(400, '小编账号不允许修改')
 
     return params
   }

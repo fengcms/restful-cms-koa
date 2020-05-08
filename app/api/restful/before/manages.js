@@ -1,32 +1,44 @@
 const { rsa } = global.tool
 const { getList, getItem } = require(':query')
 const { getToken } = require(':core/session')
+
+const checkParams = async (params, role, ctx) => {
+  const { account, name, password, editor } = params
+  // 校验必填参数
+  if (!account) ctx.throw(400, '超级管理员账号不能为空')
+  if (!name) ctx.throw(400, '超级管理员姓名不能为空')
+  // 校验编辑器参数
+  if (editor && !['MARKDOWN', 'RICHEDITOR'].includes(editor)) ctx.throw(400, '个人编辑器参数有误')
+  // 校验传入密码是否能 RSA 解密
+  if (password) await rsa.decrypt(password).catch(e => ctx.throw(400, '超级管理员登录密码有误，请检查客户端RSA配置'))
+}
+
 module.exports = {
   async post (params, role, ctx) {
-    const { account, name, password } = params
+    const { account, password } = params
+
+    // 公共校验方法
+    await checkParams(params, role, ctx)
     // 校验必填参数
-    if (!account) ctx.throw(400, '超级管理员账号不能为空')
-    if (!name) ctx.throw(400, '超级管理员姓名不能为空')
     if (!password) ctx.throw(400, '超级管理员登录密码不能为空')
+
     // 校验账号是否唯一
-    const hasAccount = await getItem('Manages', { account })
-    if (hasAccount) ctx.throw(400, '超级管理员账号已经存在')
-    // 校验传入密码是否能 RSA 解密
-    await rsa.decrypt(password).catch(e => ctx.throw(400, '超级管理员登录密码有误，请检查客户端RSA配置'))
+    const mamageInfo = await getItem('Manages', { account })
+    if (mamageInfo) ctx.throw(400, '超级管理员账号已经存在')
+
     return params
   },
   async put (params, role, ctx, id) {
-    const { account, name, password } = params
-    // 校验必填参数
-    if (!account) ctx.throw(400, '超级管理员账号不能为空')
-    if (!name) ctx.throw(400, '超级管理员姓名不能为空')
+    const { account } = params
+
+    // 公共校验方法
+    await checkParams(params, role, ctx)
+
     // 校验账号是否唯一
-    const hasAccount = await getItem('Manages', { account })
-    if (hasAccount && hasAccount.id.toString() !== id) ctx.throw(400, '超级管理员账号已经存在')
-    // 校验传入密码是否能 RSA 解密
-    if (password) {
-      await rsa.decrypt(password).catch(e => ctx.throw(400, '超级管理员登录密码有误，请检查客户端RSA配置'))
-    }
+    const mamageInfo = await getItem('Manages', id)
+    if (!mamageInfo) ctx.throw(404, '您要更新信息的超级管理员账号不存在')
+    if (mamageInfo.account !== account) ctx.throw(400, '超级管理员账号不允许修改')
+
     return params
   },
   async del (params, role, ctx, id) {

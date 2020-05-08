@@ -5,7 +5,7 @@ const afterHandle = getJSFile('../api/restful/after')
 /*
   RESTFul 核心处理方法，在此加载前处理、后处理，并查询数据
 */
-module.exports = async (ctx, { params, model, method, apiName, roleName, id }, next) => {
+module.exports = async (ctx, { params, model, method, apiName, roleName, id, token }, next) => {
   // 如有前处理，加载前处理
   if (beforeHandle.includes(apiName)) {
     const handle = require(':@/api/restful/before/' + apiName)[method]
