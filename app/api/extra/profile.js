@@ -5,10 +5,7 @@
 const { getToken } = require(':core/session')
 const { getItem } = require(':query')
 const { succ } = global.tool
-module.exports = async (ctx, { params }, next) => {
-  // 校验token是否存在
-  const token = ctx.header.token || ctx.cookies.get('token') || ''
-  if (!token) ctx.throw(401, '请重新登录')
+module.exports = async (ctx, { params, token }, next) => {
   // 校验 token 信息
   const { role, account } = await getToken(token)
   if (!role || !account) ctx.throw(401, '请重新登录')

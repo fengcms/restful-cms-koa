@@ -59,11 +59,10 @@ router.all(API_PREFIX + '*', async (ctx, next) => {
   // 根据请求计算内置请求方法
   const method = calcMethodAndCheckUrl(apiName, id, ctx)
   // 请求鉴权，并返回角色名称
-  const roleName = await Authentication(ctx, apiName, method)
-
+  const { roleName, token } = await Authentication(ctx, apiName, method)
   // 根据请求方法整理参数
   const params = method === 'ls' ? objKeyLower(ctx.request.query) : ctx.request.body
-  const allParams = { apiName, params, roleName, method, id }
+  const allParams = { apiName, params, roleName, method, id, token }
   if (extraAPI.includes(apiName)) {
     // 扩展接口直接调用扩展文件并执行
     await require(':@/api/extra/' + apiName)(ctx, allParams, next)

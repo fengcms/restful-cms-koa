@@ -27,5 +27,5 @@ module.exports = async (ctx, apiName, method) => {
       ctx.throw(404)
     */
   }
-  return roleName
+  return { roleName, token }
 }
