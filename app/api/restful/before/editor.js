@@ -1,8 +1,7 @@
 const { rsa } = global.tool
 const { getItem } = require(':query')
 
-const checkParams = async (params, role, ctx) => {
-  const { account, name, password, editor } = params
+const checkParams = async ({ account, name, password, editor }, role, ctx) => {
   // 校验必填参数
   if (!account) ctx.throw(400, '小编账号不能为空')
   if (!name) ctx.throw(400, '小编姓名不能为空')

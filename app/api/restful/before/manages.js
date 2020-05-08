@@ -2,8 +2,7 @@ const { rsa } = global.tool
 const { getList, getItem } = require(':query')
 const { getToken } = require(':core/session')
 
-const checkParams = async (params, role, ctx) => {
-  const { account, name, password, editor } = params
+const checkParams = async ({ account, name, password, editor }, role, ctx) => {
   // 校验必填参数
   if (!account) ctx.throw(400, '超级管理员账号不能为空')
   if (!name) ctx.throw(400, '超级管理员姓名不能为空')
@@ -14,9 +13,7 @@ const checkParams = async (params, role, ctx) => {
 }
 
 module.exports = {
-  async post (ctx, { params, role }) {
-    const { account, password } = params
-
+  async post (ctx, { params, params: { account, password }, role }) {
     // 公共校验方法
     await checkParams(params, role, ctx)
     // 校验必填参数
@@ -28,9 +25,7 @@ module.exports = {
 
     return params
   },
-  async put (ctx, { params, role, id }) {
-    const { account } = params
-
+  async put (ctx, { params, params: { account }, role, id }) {
     // 公共校验方法
     await checkParams(params, role, ctx)
 
@@ -41,12 +36,11 @@ module.exports = {
 
     return params
   },
-  async del (ctx, { params, role, id }) {
+  async del (ctx, { params, role, token, id }) {
     // 校验是否是最后一个超管账号
     const managesList = await getList('Manages')
     if (managesList.count <= 1) ctx.throw(400, '系统至少需要一个超级管理员账号')
     // 校验token是否存在
-    const token = ctx.header.token || ctx.cookies.get('token') || ''
     if (!token) ctx.throw(401, '请重新登录')
     // 校验 token 信息
     const { account } = await getToken(token)
