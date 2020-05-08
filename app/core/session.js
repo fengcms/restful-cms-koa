@@ -13,20 +13,21 @@ const { TMP_DIR } = APP_DIR
 */
 
 // 存储 token
-const setToken = async (role, account, token, time) => {
+const setToken = async ({ role, account, token, time, id }) => {
   const types = {
     async memory () {
       if (!global.session) global.session = {}
       global.session[token] = {
         role,
         account,
-        time
+        time,
+        id
       }
     },
     async file () {
       const filename = `session_||${token}`
       const filePath = path.resolve(TMP_DIR, filename)
-      const fileContent = `${role}||${account}||${token}||${time}`
+      const fileContent = `${role}||${account}||${id}||${token}||${time}`
       await fs.writeFile(filePath, fileContent, err => {
         if (err) return new Error('session 文件写入失败')
       })
@@ -47,8 +48,8 @@ const getToken = async token => {
       const filePath = path.resolve(TMP_DIR, filename)
       const data = await readTextFile(filePath).catch(() => false)
       if (data) {
-        const [role, account, token, time] = data.split('||')
-        return { role, account, token, time }
+        const [role, account, id, token, time] = data.split('||')
+        return { role, account, id, token, time }
       } else {
         return {}
       }
@@ -76,10 +77,10 @@ const removeToken = async token => {
 }
 
 // 计算 token 值并存储 后返回 token 值
-const makeToken = async (role, account) => {
-  const now = +new Date()
-  const token = crypto.createHash('md5').update(role + account + now).digest('hex')
-  await setToken(role, account, token, now)
+const makeToken = async (role, account, id) => {
+  const time = +new Date()
+  const token = crypto.createHash('md5').update(role + account + time).digest('hex')
+  await setToken({ role, account, token, time, id })
   return token
 }
 
@@ -90,9 +91,11 @@ const checkToken = async token => {
     const tokenSave = await getToken(token)
     if (tokenSave) {
       const { role, account, time } = tokenSave
-      const now = +new Date()
-      if ((now - time) <= 86400000) {
+      const diff = +new Date() - time
+      if (diff <= 86400000) {
         res = { role, account }
+        // 如果还有一个小时就过期，那么就去更新一下token，延长有效期
+        if (diff >= 82800000) updateToken(token)
       }
     }
   }
@@ -103,9 +106,9 @@ const checkToken = async token => {
 const updateToken = async token => {
   const rightToken = await checkToken(token)
   if (rightToken) {
-    const { role, account } = rightToken
-    const now = +new Date()
-    await setToken(role, account, token, now)
+    const { role, account, id } = rightToken
+    const time = +new Date()
+    await setToken({ role, account, token, time, id })
     return true
   }
   return false

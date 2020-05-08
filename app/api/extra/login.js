@@ -18,7 +18,7 @@ module.exports = async (ctx, { params }, next) => {
   if (dbPw !== reqPw) ctx.throw(400, '用户名密码错误')
 
   // 用户通过校验
-  const token = await makeToken(role, account)
+  const token = await makeToken(role, account, dbUser.id)
   ctx.cookies.set('token', token, { httpOnly: true })
   ctx.body = succ({ token })
 }
