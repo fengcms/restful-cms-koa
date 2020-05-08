@@ -18,10 +18,10 @@ const articleHandle = (params, role, ctx) => {
 }
 
 module.exports = {
-  post (params, role, ctx) {
+  post (ctx, { params, role }) {
     return articleHandle(params, role, ctx)
   },
-  put (params, role, ctx, id) {
+  put (ctx, { params, role, id }) {
     return articleHandle(params, role, ctx)
   }
 }

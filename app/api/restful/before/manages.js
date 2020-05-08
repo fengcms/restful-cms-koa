@@ -14,7 +14,7 @@ const checkParams = async (params, role, ctx) => {
 }
 
 module.exports = {
-  async post (params, role, ctx) {
+  async post (ctx, { params, role }) {
     const { account, password } = params
 
     // 公共校验方法
@@ -28,7 +28,7 @@ module.exports = {
 
     return params
   },
-  async put (params, role, ctx, id) {
+  async put (ctx, { params, role, id }) {
     const { account } = params
 
     // 公共校验方法
@@ -41,7 +41,7 @@ module.exports = {
 
     return params
   },
-  async del (params, role, ctx, id) {
+  async del (ctx, { params, role, id }) {
     // 校验是否是最后一个超管账号
     const managesList = await getList('Manages')
     if (managesList.count <= 1) ctx.throw(400, '系统至少需要一个超级管理员账号')

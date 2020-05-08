@@ -13,7 +13,7 @@ const checkParams = async (params, role, ctx) => {
 }
 
 module.exports = {
-  async post (params, role, ctx) {
+  async post (ctx, { params, role }) {
     const { password, account } = params
     // 校验必填参数
     if (!password) ctx.throw(400, '小编登录密码不能为空')
@@ -27,7 +27,7 @@ module.exports = {
 
     return params
   },
-  async put (params, role, ctx, id) {
+  async put (ctx, { params, role, id }) {
     const { account } = params
     // 公共校验方法
     await checkParams(params, role, ctx)
