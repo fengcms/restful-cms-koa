@@ -80,6 +80,8 @@ const removeToken = async token => {
 const makeToken = async (role, account, id) => {
   const time = +new Date()
   const token = crypto.createHash('md5').update(role + account + time).digest('hex')
+  // 将 ID 转成字符串，方便后续内部查询
+  id = id.toString()
   await setToken({ role, account, token, time, id })
   return token
 }

@@ -31,6 +31,6 @@ module.exports = async (ctx, { params, roleName }, next) => {
   if (oldPw !== dbPw) ctx.throw(400, '原密码不正确')
 
   // 通过校验
-  await putItem(model, id.toString(), { password: newPassword })
+  await putItem(model, id, { password: newPassword })
   ctx.body = succ('密码修改成功')
 }

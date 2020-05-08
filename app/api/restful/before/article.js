@@ -3,9 +3,9 @@ const marked = require('marked')
 
 const articleHandle = (params, role, ctx) => {
   const { title, channel_id: channelId, content, markdown, description } = params
-  if (!title) ctx.throw(410, '文章标题不能为空')
-  if (!channelId) ctx.throw(410, '文章归属栏目不能为空')
-  if (!content && !markdown) ctx.throw(410, '文章正文不能为空')
+  if (!title) ctx.throw(400, '文章标题不能为空')
+  if (!channelId) ctx.throw(400, '文章归属栏目不能为空')
+  if (!content && !markdown) ctx.throw(400, '文章正文不能为空')
   // 如果有 markdown 则将 markdown 转成 html 并存放到 content
   if (markdown) {
     params.content = marked(markdown)
