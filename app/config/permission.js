@@ -30,6 +30,6 @@ module.exports = {
   logout: onlyRead,
   tree_channel: onlyRead,
   rsa_public_key: onlyRead,
-  profile: onlyRead,
+  profile: { anyone: nil, editor: [ls, get, put], admin: [ls, get, put] },
   change_password: { anyone: nil, editor: [post], admin: [post] }
 }

@@ -34,10 +34,10 @@ const RESTFulModel = (() => {
     PUT     put     更新指定ID资源
     DELETE  del     删除指定ID资源
 */
-const calcMethodAndCheckUrl = (reqApiName, reqId, ctx) => {
+const calcMethodAndCheckUrl = (apiName, id, ctx) => {
   const { method } = ctx.request
   let reqMethod = method.toLocaleLowerCase()
-  if (reqId) {
+  if (id) {
     if (method === 'POST') ctx.throw(405)
     if (method === 'DELETE') reqMethod = 'del'
   } else {
@@ -54,22 +54,24 @@ const router = new Router()
 router.all(API_PREFIX + '*', async (ctx, next) => {
   // 根据请求 path 获取请求 apiname 以及请求 id，并判断 path 是否合法
   const reqPath = ctx.request.path.replace(new RegExp(API_PREFIX), '')
-  const [reqApiName, reqId, errPath] = reqPath.split('/').map(i => i.toLocaleLowerCase())
+  const [apiName, id, errPath] = reqPath.split('/').map(i => i.toLocaleLowerCase())
   if (errPath) ctx.throw(400, '请求路径不支持')
   // 根据请求计算内置请求方法
-  const reqMethod = calcMethodAndCheckUrl(reqApiName, reqId, ctx)
+  const method = calcMethodAndCheckUrl(apiName, id, ctx)
   // 请求鉴权，并返回角色名称
-  const roleName = await Authentication(ctx, reqApiName, reqMethod)
+  const roleName = await Authentication(ctx, apiName, method)
 
   // 根据请求方法整理参数
-  const reqParams = reqMethod === 'ls' ? objKeyLower(ctx.request.query) : ctx.request.body
-  if (extraAPI.includes(reqApiName)) {
+  const params = method === 'ls' ? objKeyLower(ctx.request.query) : ctx.request.body
+  const allParams = { apiName, params, roleName, method, id }
+  if (extraAPI.includes(apiName)) {
     // 扩展接口直接调用扩展文件并执行
-    await require(':@/api/extra/' + reqApiName)(ctx, reqParams, roleName, next)
-  } else if (Object.keys(RESTFulModel).includes(reqApiName)) {
+    await require(':@/api/extra/' + apiName)(ctx, allParams, next)
+  } else if (Object.keys(RESTFulModel).includes(apiName)) {
     // 标准 RESTFul 查询
-    const reqModelName = RESTFulModel[reqApiName]
-    await Core(ctx, reqParams, reqModelName, reqMethod, reqApiName, roleName, reqId, next)
+    const model = RESTFulModel[apiName]
+    allParams.model = model
+    await Core(ctx, allParams, next)
   } else {
     ctx.throw(404)
   }

@@ -1,7 +1,7 @@
 const { getToken } = require(':core/session')
 const { getItem, putItem } = require(':query')
 const { succ, rsa } = global.tool
-module.exports = async (ctx, params, roleName, next) => {
+module.exports = async (ctx, { params, roleName }, next) => {
   // 校验入参
   const { oldPassword, newPassword } = params
   if (!oldPassword && !newPassword) ctx.throw(410, '请输入原密码以及新密码')
