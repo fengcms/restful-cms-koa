@@ -44,7 +44,7 @@ const ArgHandle = {
 
 module.exports = async (ctx, model, method, params) => {
   const { pagesize = PAGE_SIZE, page = 0, time } = params
-  model = models[model]
+  model = models[model + '_view'] || models[model]
   const modelField = Object.keys(model.rawAttributes)
   // 校验分页参数
   if (!isNumer(pagesize) || !isNumer(page)) ctx.throw(412, '参数非法, pagesize 和 page 只能是数字')
@@ -56,7 +56,7 @@ module.exports = async (ctx, model, method, params) => {
     order: [['id', 'DESC']]
   }
   // pagesize 为 -1 时 查询全部数据
-  if (pagesize === '-1') {
+  if (Number(pagesize) === -1) {
     delete condition.offset
     delete condition.limit
   }

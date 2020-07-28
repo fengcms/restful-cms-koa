@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize')
-const { STRING, INTEGER, TEXT } = Sequelize
+const { STRING, INTEGER, BIGINT, TEXT, JSONB } = Sequelize
 
 // 自定义私有字段类型
 const privateTypes = {
@@ -22,7 +22,7 @@ const privateTypes = {
     }
   },
   Date: {
-    type: INTEGER,
+    type: BIGINT,
     defaultValue: () => +new Date()
   },
   Hits: {
@@ -61,6 +61,23 @@ module.exports = {
     author: STRING, // 文章作者
     origin: STRING, // 文章来源
     editor: STRING, // 文章编辑
+    json: JSONB,
+    hits: privateTypes.Hits, // 文章点击热度
+    status: privateTypes.Status, // 文章状态
+    time: privateTypes.Date
+  },
+  // 文章表
+  Article_view: {
+    title: STRING, // 文章标题
+    channel_id: INTEGER, // 归属栏目ID
+    channel_name: STRING, // 文章标题
+    description: TEXT, // 文章描述
+    tags: TEXT, // 文章 Tag
+    img: STRING, // 文章封面图片
+    author: STRING, // 文章作者
+    origin: STRING, // 文章来源
+    editor: STRING, // 文章编辑
+    json: JSONB,
     hits: privateTypes.Hits, // 文章点击热度
     status: privateTypes.Status, // 文章状态
     time: privateTypes.Date
