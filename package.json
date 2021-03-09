@@ -22,7 +22,7 @@
     "koa-log4": "^2.3.2",
     "koa-router": "^8.0.8",
     "koa-static": "^5.0.0",
-    "marked": "^1.1.1",
+    "marked": "^2.0.0",
     "node-rsa": "^1.0.8",
     "pg": "^8.3.0",
     "pg-hstore": "^2.3.3",
