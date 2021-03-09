@@ -3,7 +3,8 @@
 */
 const fs = require('fs')
 const path = require('path')
-
+const xss = require('xss')
+const { XSS_WHITE_LIST } = require(':config')
 // 精确判断数据类型
 const toType = obj => {
   return ({}).toString.call(obj).match(/\s([a-zA-Z]+)/)[1].toLowerCase()
@@ -127,7 +128,12 @@ const sleep = async time => {
 
 // 过滤 html 标签
 const filterStrHtml = htmlStr => {
-  return htmlStr.replace(/<.*?>/g, '').replace(/[\r\n]/g, ' ').trim()
+  return htmlStr.replace(/<.*?>/g, '').replace(/[\r\n]/g, ' ').replace(/&.*?;/g, '').trim()
+}
+
+const filterObjectXss = o => {
+  Object.keys(o).forEach(i => { o[i] = toType(o) === 'string' ? xss(o[i], { whiteList: XSS_WHITE_LIST }) : o[i] })
+  return o
 }
 
 module.exports = {
@@ -142,6 +148,7 @@ module.exports = {
   objKeyLower,
   sleep,
   filterStrHtml,
+  filterObjectXss,
   // 加载自定义校验
   verify: require('./verify'),
   rsa: require('./rsa')

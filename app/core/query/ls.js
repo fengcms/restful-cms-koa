@@ -1,7 +1,7 @@
 /*
   分页数据查询方法 支持各种复杂查询条件，详情见文档
 */
-const { Op } = require('Sequelize')
+const { Op } = require('sequelize')
 const { models } = require(':@/model')
 const { PAGE_SIZE } = require(':config')
 const { isNumer } = global.tool.verify
@@ -39,24 +39,31 @@ const ArgHandle = {
   },
   nin (arg) { // notIn 查询
     return { [Op.notIn]: arg.split(',') }
+  },
+  nil () { // 字段为空查询
+    return null
+  },
+  nnil () { // 字段不为空查询
+    return { [Op.ne]: '' }
   }
 }
 
 module.exports = async (ctx, model, method, params) => {
   const { pagesize = PAGE_SIZE, page = 0, time } = params
-  model = models[model + '_view'] || models[model]
+  model = models[model]
   const modelField = Object.keys(model.rawAttributes)
   // 校验分页参数
   if (!isNumer(pagesize) || !isNumer(page)) ctx.throw(412, '参数非法, pagesize 和 page 只能是数字')
+  const PSize = Number(pagesize)
   // 构建基础 where 参数
   const condition = {
     where: {},
-    offset: page * pagesize,
-    limit: pagesize,
+    offset: page * PSize,
+    limit: PSize,
     order: [['id', 'DESC']]
   }
   // pagesize 为 -1 时 查询全部数据
-  if (Number(pagesize) === -1) {
+  if (PSize === -1) {
     delete condition.offset
     delete condition.limit
   }
@@ -109,7 +116,7 @@ module.exports = async (ctx, model, method, params) => {
         支持 a=1,2,3,4,5 多个相等条件查询
           会被解析为 in 查询
       */
-      const argArr = (args[i] || '').split(',')
+      const argArr = (String(args[i]) || '').split(',')
       condition.where[fieldName] = argArr.length === 1 ? args[i] : { [Op.in]: argArr }
     } else {
       // 处理配置查询参数
@@ -137,7 +144,7 @@ module.exports = async (ctx, model, method, params) => {
       page: Number(page),
       list: r.rows,
       count: r.count,
-      pageSize: Number(pagesize)
+      pageSize: PSize
     }
   })
   return res

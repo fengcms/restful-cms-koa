@@ -1,46 +1,46 @@
 const Sequelize = require('sequelize')
-const { STRING, INTEGER, BIGINT, TEXT, JSONB } = Sequelize
+const { STRING, INTEGER, BIGINT, TEXT } = Sequelize
 
 // 自定义私有字段类型
 const privateTypes = {
-  Mobile: {
+  Mobile: () => ({
     type: INTEGER,
     validate: {
       is: /^1[3456789]\d{9}$/i
     }
-  },
-  Url: {
+  }),
+  Url: () => ({
     type: STRING,
     validate: {
       isUrl: true
     }
-  },
-  Email: {
+  }),
+  Email: () => ({
     type: STRING,
     validate: {
       isEmail: true
     }
-  },
-  Date: {
+  }),
+  Date: () => ({
     type: BIGINT,
     defaultValue: () => +new Date()
-  },
-  Hits: {
+  }),
+  Hits: () => ({
     type: INTEGER,
     defaultValue: 0
-  },
-  Sort: {
+  }),
+  Sort: () => ({
     type: INTEGER,
     defaultValue: 0
-  },
-  Status: {
+  }),
+  Status: () => ({
     type: STRING,
     defaultValue: 'NORMAL'
-  },
-  Editor: {
+  }),
+  Editor: () => ({
     type: STRING,
     defaultValue: 'MARKDOWN'
-  }
+  })
 }
 
 /*
@@ -61,35 +61,18 @@ module.exports = {
     author: STRING, // 文章作者
     origin: STRING, // 文章来源
     editor: STRING, // 文章编辑
-    json: JSONB,
-    hits: privateTypes.Hits, // 文章点击热度
-    status: privateTypes.Status, // 文章状态
-    time: privateTypes.Date
-  },
-  // 文章表
-  Article_view: {
-    title: STRING, // 文章标题
-    channel_id: INTEGER, // 归属栏目ID
-    channel_name: STRING, // 文章标题
-    description: TEXT, // 文章描述
-    tags: TEXT, // 文章 Tag
-    img: STRING, // 文章封面图片
-    author: STRING, // 文章作者
-    origin: STRING, // 文章来源
-    editor: STRING, // 文章编辑
-    json: JSONB,
-    hits: privateTypes.Hits, // 文章点击热度
-    status: privateTypes.Status, // 文章状态
-    time: privateTypes.Date
+    hits: privateTypes.Hits(), // 文章点击热度
+    status: privateTypes.Status(), // 文章状态
+    time: privateTypes.Date()
   },
   // 文章栏目
   Channel: {
     pid: INTEGER, // 归属父ID
     name: STRING, // 栏目名称
-    sort: privateTypes.Sort, // 栏目排序
+    sort: privateTypes.Sort(), // 栏目排序
     keywords: STRING, // 栏目关键词
     description: TEXT, // 栏目描述
-    time: privateTypes.Date
+    time: privateTypes.Date()
   },
   // 超级管理员
   Manages: {
@@ -98,10 +81,10 @@ module.exports = {
     name: STRING, // 姓名
     avatar: STRING, // 头像
     mark: TEXT,
-    editor: privateTypes.Editor,
-    mobile: privateTypes.Mobile,
-    email: privateTypes.Email,
-    time: privateTypes.Date
+    editor: privateTypes.Editor(),
+    mobile: privateTypes.Mobile(),
+    email: privateTypes.Email(),
+    time: privateTypes.Date()
   },
   // 站点基本信息配置
   Site: {
@@ -111,17 +94,17 @@ module.exports = {
     keywords: TEXT, // 站点关键词
     description: TEXT, // 站点描述
     copyright: TEXT, // 站点版权
-    time: privateTypes.Date
+    time: privateTypes.Date()
   },
   // 作者
   Author: {
     name: STRING, // 作者姓名
     avatar: STRING, // 作者头像
     mark: TEXT, // 备注
-    mobile: privateTypes.Mobile,
-    email: privateTypes.Email,
-    website: privateTypes.Url,
-    time: privateTypes.Date
+    mobile: privateTypes.Mobile(),
+    email: privateTypes.Email(),
+    website: privateTypes.Url(),
+    time: privateTypes.Date()
   },
   // 来源
   Origin: {
@@ -129,10 +112,10 @@ module.exports = {
     contact: STRING,
     logo: STRING,
     mark: TEXT,
-    mobile: privateTypes.Mobile,
-    email: privateTypes.Email,
-    website: privateTypes.Url,
-    time: privateTypes.Date
+    mobile: privateTypes.Mobile(),
+    email: privateTypes.Email(),
+    website: privateTypes.Url(),
+    time: privateTypes.Date()
   },
   // 文章编辑
   Editor: {
@@ -141,17 +124,17 @@ module.exports = {
     name: STRING,
     avatar: STRING,
     mark: TEXT,
-    editor: privateTypes.Editor,
-    mobile: privateTypes.Mobile,
-    email: privateTypes.Email,
-    website: privateTypes.Url,
-    time: privateTypes.Date
+    editor: privateTypes.Editor(),
+    mobile: privateTypes.Mobile(),
+    email: privateTypes.Email(),
+    website: privateTypes.Url(),
+    time: privateTypes.Date()
   },
   // 关键词
   Tags: {
     tag: STRING,
     channel_id: INTEGER,
-    hits: privateTypes.Hits,
-    time: privateTypes.Date
+    hits: privateTypes.Hits(),
+    time: privateTypes.Date()
   }
 }

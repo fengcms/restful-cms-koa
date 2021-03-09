@@ -9,7 +9,7 @@
 */
 
 const { models } = require(':@/model')
-const { toType } = global.tool
+const { toType, filterObjectXss } = global.tool
 module.exports = async (ctx, model, method, params) => {
   // 如果是单条数据，则转化为多条数据，共用后续处理
   if (toType(params) === 'object') params = [params]
@@ -21,6 +21,7 @@ module.exports = async (ctx, model, method, params) => {
 
   const res = { ids: [] }
   await Promise.all(params.map(async item => {
+    item = filterObjectXss(item)
     const id = await models[model]
       .create(item)
       .then(r => r.id)

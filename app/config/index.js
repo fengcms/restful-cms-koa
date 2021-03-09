@@ -1,5 +1,5 @@
 const PERMISSION = require('./permission')
-const { DB_CONN, DB_PREFIX } = require('./database')
+const { DB_CONN, DB_PREFIX, DB_NAME, DB_USERNAME, DB_PASSWORD } = require('./database')
 const path = require('path')
 
 // app 运行设置
@@ -40,6 +40,9 @@ const IS_POST_TEST_DB = true
 module.exports = {
   DB_CONN,
   DB_PREFIX,
+  DB_NAME,
+  DB_USERNAME,
+  DB_PASSWORD,
   APP_HOST,
   API_PREFIX,
   PAGE_SIZE,
