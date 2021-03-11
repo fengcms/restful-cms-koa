@@ -4,7 +4,7 @@ const { STRING, INTEGER, BIGINT, TEXT } = Sequelize
 // 自定义私有字段类型
 const privateTypes = {
   Mobile: () => ({
-    type: INTEGER,
+    type: BIGINT,
     validate: {
       is: /^1[3456789]\d{9}$/i
     }
