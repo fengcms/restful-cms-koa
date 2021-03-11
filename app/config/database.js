@@ -1,4 +1,6 @@
 // 数据库连接配置
+// sqlite 必须安装 sqlite3 依赖
+// npm i sqlite3
 /* sqlite 数据库连接配置 */
 const DB_CONN = {
   host: 'localhost',
@@ -16,6 +18,8 @@ const DB_CONN = {
   }
 }
 
+// PostgreSQL 必须安装 pg 依赖
+// npm i pg
 /* PostgreSQL 数据库连接配置 */
 // const DB_CONN = {
 //   host: '10.211.55.9',
@@ -34,6 +38,8 @@ const DB_CONN = {
 //   }
 // }
 
+// MYSQL 必须安装 mysql mysql2 依赖
+// npm i mysql mysql2
 /* MYSQL 数据库连接配置 */
 // const DB_CONN = {
 //   host: '127.0.0.1', // 主机地址
@@ -55,7 +61,8 @@ const DB_CONN = {
 
 // 数据库表名前缀设置
 const DB_PREFIX = 'fungleo_'
-
+// 以下配置为 PostgreSQL 或 MYSQL 必填
+// 数据库名称，用户名，密码
 const DB_NAME = 'restful-cms'
 const DB_USERNAME = 'root'
 const DB_PASSWORD = '123456'
