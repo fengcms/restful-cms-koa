@@ -78,6 +78,7 @@ module.exports = {
   Manages: {
     account: STRING, // 超级管理员账号
     password: TEXT, // 超级管理员密码
+    salt: TEXT,
     name: STRING, // 姓名
     avatar: STRING, // 头像
     mark: TEXT,
@@ -121,6 +122,7 @@ module.exports = {
   Editor: {
     account: STRING,
     password: TEXT,
+    salt: TEXT,
     name: STRING,
     avatar: STRING,
     mark: TEXT,

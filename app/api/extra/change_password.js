@@ -1,6 +1,8 @@
 const { getToken } = require(':core/session')
 const { getItem, putItem } = require(':query')
 const { succ, rsa } = global.tool
+const { getStrSha256 } = require(':utils/hash')
+
 module.exports = async (ctx, { params, roleName }, next) => {
   // 校验入参
   const { oldPassword, newPassword } = params
@@ -25,12 +27,15 @@ module.exports = async (ctx, { params, roleName }, next) => {
   const userInfo = await getItem(model, id)
   if (!userInfo) ctx.throw(500, '账户数据存在异常')
 
+  const hashOldPw = getStrSha256(oldPw + userInfo.salt)
   // 从账户信息中获取密码并解密
-  const dbPw = await rsa.decrypt(userInfo.password).catch(e => ctx.throw(500, '账户数据存在异常'))
+  // const dbPw = await rsa.decrypt(userInfo.password).catch(e => ctx.throw(500, '账户数据存在异常'))
 
-  if (oldPw !== dbPw) ctx.throw(400, '原密码不正确')
+  if (hashOldPw !== userInfo.password) ctx.throw(400, '原密码不正确')
+
+  const hashNewPw = getStrSha256(newPw + userInfo.salt)
 
   // 通过校验
-  await putItem(model, id, { password: newPassword })
+  await putItem(model, id, { password: hashNewPw })
   ctx.body = succ('密码修改成功')
 }

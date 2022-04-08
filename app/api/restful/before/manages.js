@@ -1,6 +1,7 @@
 const { rsa } = global.tool
 const { getList, getItem } = require(':query')
 const { getToken } = require(':core/session')
+const { getStrMd5, getStrSha256 } = require(':utils/hash')
 
 const checkParams = async ({ account, name, password, editor }, role, ctx) => {
   // 校验必填参数
@@ -23,6 +24,10 @@ module.exports = {
     const mamageInfo = await getItem('Manages', { account })
     if (mamageInfo) ctx.throw(400, '超级管理员账号已经存在')
 
+    params.salt = getStrMd5(String(Math.random()))
+    const pw = await rsa.decrypt(password)
+    params.password = getStrSha256(pw + params.salt)
+
     return params
   },
   async put (ctx, { params, params: { account }, role, id }) {
@@ -33,7 +38,8 @@ module.exports = {
     const mamageInfo = await getItem('Manages', id)
     if (!mamageInfo) ctx.throw(404, '您要更新信息的超级管理员账号不存在')
     if (mamageInfo.account !== account) ctx.throw(400, '超级管理员账号不允许修改')
-
+    delete params.password
+    delete params.salt
     return params
   },
   async del (ctx, { params, role, token, id }) {

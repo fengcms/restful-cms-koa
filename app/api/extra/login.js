@@ -1,6 +1,8 @@
 const { succ, rsa } = global.tool
 const { getItem } = require(':query')
 const { makeToken } = require(':core/session')
+const { getStrSha256 } = require(':utils/hash')
+
 module.exports = async (ctx, { params }, next) => {
   const { account, password, role } = params
   // 校验传参是否为空
@@ -13,9 +15,10 @@ module.exports = async (ctx, { params }, next) => {
   const dbUser = await getItem(role === 'admin' ? 'Manages' : 'Editor', { account })
   // 校验传入用户名是否存在
   if (!dbUser) ctx.throw(400, '用户名密码错误')
-  const dbPw = await rsa.decrypt(dbUser.password).catch(e => ctx.throw(500, '用户数据存在异常'))
-  // 校验密码是否正确
-  if (dbPw !== reqPw) ctx.throw(400, '用户名密码错误')
+  // 将传入的密码加盐，取 sha256 值
+  const hashPw = getStrSha256(reqPw + dbUser.salt)
+  // 和数据库中存储的哈希值进行比对
+  if (dbUser.password !== hashPw) ctx.throw(400, '用户名密码错误')
 
   // 用户通过校验
   const token = await makeToken(role, account, dbUser.id)

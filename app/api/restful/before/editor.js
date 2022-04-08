@@ -1,6 +1,8 @@
 const { rsa } = global.tool
 const { getItem } = require(':query')
 
+const { getStrMd5, getStrSha256 } = require(':utils/hash')
+
 const checkParams = async ({ account, name, password, editor }, role, ctx) => {
   // 校验必填参数
   if (!account) ctx.throw(400, '小编账号不能为空')
@@ -24,6 +26,9 @@ module.exports = {
     const editInfo = await getItem('Editor', { account })
     if (editInfo) ctx.throw(400, '小编账号已经存在')
 
+    params.salt = getStrMd5(String(Math.random()))
+    const pw = await rsa.decrypt(password)
+    params.password = getStrSha256(pw + params.salt)
     return params
   },
   async put (ctx, { params, role, id }) {

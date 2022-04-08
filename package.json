@@ -16,6 +16,7 @@
   "license": "MIT",
   "dependencies": {
     "best-require": "^1.1.4",
+    "crypto": "^1.0.1",
     "koa": "^2.11.0",
     "koa-body": "^4.1.1",
     "koa-json": "^2.0.2",
@@ -27,7 +28,7 @@
     "pg": "^8.3.0",
     "pg-hstore": "^2.3.3",
     "sequelize": "^5.21.6",
-    "sqlite3": "^4.1.1",
+    "sqlite3": "^5.0.2",
     "xss": "^1.0.8"
   },
   "devDependencies": {

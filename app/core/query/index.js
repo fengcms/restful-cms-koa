@@ -8,6 +8,7 @@ const post = require('./post')
 const get = require('./get')
 const put = require('./put')
 const del = require('./del')
+const { getStrMd5, getStrSha256 } = require(':utils/hash')
 
 // 系统内部查询数据列表方法
 const getList = async (model, params = {}) => {
@@ -44,12 +45,14 @@ const putItem = async (model, id, params) => {
 // 初始化空数据时添加默认数据方法
 const initDb = async () => {
   const hasManage = await getItem('Manages', 'first')
-  const password = await rsa.encrypt('123456')
+  const salt = getStrMd5(String(Math.random()))
+  const password = getStrSha256('123456' + salt)
   if (!hasManage) {
     postItem('Manages', {
       account: 'admin',
       name: 'admin',
       password,
+      salt,
       email: 'web@web.com',
       mark: '系统初始管理员账号'
     }).then(() => {

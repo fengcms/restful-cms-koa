@@ -12,7 +12,7 @@ const DB_CONN = {
     idle: 10000
   },
   query: { raw: true },
-  storage: 'db/news.db',
+  storage: 'db/data.db',
   logging: function (sql) {
     // console.log(sql)
   }
@@ -60,7 +60,7 @@ const DB_CONN = {
 // }
 
 // 数据库表名前缀设置
-const DB_PREFIX = 'fungleo_'
+const DB_PREFIX = 'car_'
 // 以下配置为 PostgreSQL 或 MYSQL 必填
 // 数据库名称，用户名，密码
 const DB_NAME = 'restful-cms'

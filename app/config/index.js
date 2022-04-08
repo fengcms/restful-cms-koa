@@ -5,7 +5,7 @@ const path = require('path')
 // app 运行设置
 const APP_HOST = {
   host: '0.0.0.0',
-  port: 3000
+  port: 4000
 }
 // 项目接口前缀
 const API_PREFIX = '/api/v1/'
