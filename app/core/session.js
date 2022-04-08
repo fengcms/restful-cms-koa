@@ -1,7 +1,6 @@
-const crypto = require('crypto')
 const fs = require('fs')
 const path = require('path')
-const { readTextFile, deleteFile } = global.tool
+const { readTextFile, deleteFile, hash: { getStrMd5 } } = global.tool
 const { SESSION_TYPE = 'memory', APP_DIR } = require(':config')
 const { TMP_DIR } = APP_DIR
 
@@ -79,7 +78,8 @@ const removeToken = async token => {
 // 计算 token 值并存储 后返回 token 值
 const makeToken = async (role, account, id) => {
   const time = +new Date()
-  const token = crypto.createHash('md5').update(role + account + time).digest('hex')
+  const token = getStrMd5(role + account + time)
+  // crypto.createHash('md5').update(role + account + time).digest('hex')
   // 将 ID 转成字符串，方便后续内部查询
   id = id.toString()
   await setToken({ role, account, token, time, id })

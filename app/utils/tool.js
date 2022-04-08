@@ -151,5 +151,6 @@ module.exports = {
   filterObjectXss,
   // 加载自定义校验
   verify: require('./verify'),
-  rsa: require('./rsa')
+  rsa: require('./rsa'),
+  hash: require('./hash')
 }
